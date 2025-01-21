@@ -57,7 +57,7 @@ def select_t(func: Callable):
     :return: transformation
     """
     return Transformation(
-        "select({name(func)})",
+        f"select({name(func)})",
         partial(map, func),
         {ExecutionStrategies.PARALLEL},
     )
@@ -70,7 +70,7 @@ def starmap_t(func: Callable):
     :return: transformation
     """
     return Transformation(
-        "starmap({name(func)})",
+        f"starmap({name(func)})",
         partial(starmap, func),
         {ExecutionStrategies.PARALLEL},
     )
@@ -260,8 +260,7 @@ def flat_map_impl(func: Callable, sequence):
     :return: flat_map generator
     """
     for element in sequence:
-        for value in func(element):
-            yield value
+        yield from func(element)
 
 
 def flat_map_t(func):
